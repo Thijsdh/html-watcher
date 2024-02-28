@@ -9,8 +9,16 @@ notifications over a Discord webhook are supported.
 
 ## How to use
 
-First, set the required environment variables in `.env`. These variables are
-available:
+First, compile for release:
+
+```bash
+cargo build -r
+```
+
+The compiled binary can be found in `./target/release/html-watcher`.
+
+After that, make sure you have set the required environment variables in `.env`.
+The following variables are available:
 
 | Variable              | Description                                                                                      | Optional | Default     |
 | --------------------- | ------------------------------------------------------------------------------------------------ | -------- | ----------- |
@@ -22,3 +30,14 @@ available:
 | `DISCORD_WEBHOOK_URL` | [Discord webhook URL](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) | ✅       | -           |
 | `DISCORD_USER_ID`     | If set, the given user is tagged.                                                                | ✅       | -           |
 | `DISCORD_MESSAGE`     | If set, this message is included in the discord notification.                                    | ✅       | -           |
+
+### Usage with cronjob
+
+The easiest way to periodically do a check is to create a cronjob. Such a
+cronjob might look like this:
+
+```bash
+0,30 * * * * cd <path-to-this-project> && ./target/release/html-watcher
+```
+
+Changing to the root of this project is required to load the `.env` file.
